@@ -7,7 +7,6 @@ exports.getEmployees = async (req, res, next) => {
 // TODO
 exports.deleteEmployee = async (req, res, next) => {
   const id = req.params.id;
-  // Assuming employee is an array of objects
   const index = employee.findIndex(emp => emp.id === id);
   if (index !== -1) {
     employee.splice(index, 1);
