@@ -38,13 +38,18 @@ document
 
 // TODO
 // add event listener to delete button
-document.getElementById("dataTable").addEventListener("click", function(event) {
-  if (event.target.tagName === "BUTTON" && event.target.textContent === "Delete") {
-    const row = event.target.parentNode.parentNode;
-    // const id = row.querySelector("td:first-child").textContent;
-    deleteEmployee(row);
-  }
-});
+document
+  .getElementById("dataTable")
+  .addEventListener("click", function (event) {
+    if (
+      event.target.tagName === "BUTTON" &&
+      event.target.textContent === "Delete"
+    ) {
+      const row = event.target.parentNode.parentNode;
+      // const id = row.querySelector("td:first-child").textContent;
+      deleteEmployee(row);
+    }
+  });
 
 // TODO
 function createEmployee() {
@@ -53,7 +58,7 @@ function createEmployee() {
   const id = document.getElementById("id").value;
   const employee = { id, name };
   // send data to BE
-  if (name && id) {
+  if (name && id && id > 0) {
     fetch("http://localhost:3000/api/v1/employee", {
       method: "POST",
       body: JSON.stringify(employee),
@@ -64,7 +69,7 @@ function createEmployee() {
       .then((response) => console.log(response))
       .catch((error) => console.error(error));
   } else {
-    alert("Please enter both your name and id");
+    alert("Please enter both your name and positive id");
   }
   // call fetchEmployees
   fetchEmployees();
@@ -76,20 +81,20 @@ function deleteEmployee(row) {
   const id = row.querySelector("td:first-child").textContent;
   // send id to BE
   fetch(`http://localhost:3000/api/v1/employee/${id}`, {
-    method: "DELETE"
+    method: "DELETE",
   })
-  .then((response) => {
-    if (response.ok) {
-      console.log(response);
-    } else {
-      alert("Failed to delete employee");
-    }
-  })
-  // call fetchEmployees
-  .then(() => {
-    fetchEmployees();
-  })
-  .catch((error) => console.error(error));
+    .then((response) => {
+      if (response.ok) {
+        console.log(response);
+      } else {
+        alert("Failed to delete employee");
+      }
+    })
+    // call fetchEmployees
+    .then(() => {
+      fetchEmployees();
+    })
+    .catch((error) => console.error(error));
 }
 
 fetchEmployees();
